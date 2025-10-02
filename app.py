@@ -38,13 +38,13 @@ if uploaded_file is not None:
         st.write("未检测到任何目标")
     
     # 生成LLM描述
-    if predictions:
+    """if predictions:
         description = llm_model.generate_description(predictions)
         st.subheader("LLM生成的描述")
         st.write(description)
     else:
         st.write("没有检测到目标，无法生成描述")
-    
+    """
     # 显示检测框
     if predictions:
         st.subheader("检测结果可视化")
