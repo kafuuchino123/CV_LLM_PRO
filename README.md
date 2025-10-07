@@ -28,7 +28,7 @@ pip install streamlit opencv-python numpy pillow ultralytics transformers torch 
 模型准备
 
     YOLOv8n 模型：会在首次运行时自动下载（yolov8n.pt）
-    LLM 模型：需要手动准备 phi-2 模型文件，并在llm_model.py中修改model_name路径指向模型所在目录
+    LLM 模型：首次运行会自动下载模型并进行运行
 
 使用方法
 
