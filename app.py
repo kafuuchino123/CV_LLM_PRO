@@ -6,6 +6,7 @@ from cv_model import CVModel
 from llm_model import LLMModel
 import hashlib
 import torch
+from config import Config
 
 # 模型初始化缓存，避免重复加载
 @st.cache_resource
@@ -16,11 +17,11 @@ def get_cv_model():
 def get_llm_model():
     return LLMModel()
 
+st.set_page_config(page_title="CV + LLM Image Analysis", layout="wide")
+
 # 初始化模型（使用缓存的模型实例）
 cv_model = get_cv_model()
 llm_model = get_llm_model()
-
-st.set_page_config(page_title="CV + LLM Image Analysis", layout="wide")
 
 # 在模型初始化后添加
 st.sidebar.subheader("系统信息")
@@ -105,12 +106,15 @@ if uploaded_file is not None:
         
         # 生成LLM描述（带缓存）
         if predictions:
-            try:
-                description = run_llm_generation(predictions, llm_model)
-                st.subheader("LLM生成的描述")
-                st.write(description)
-            except Exception as e:
-                st.error(f"LLM生成描述失败: {str(e)}")
+            if not Config.API_KEY:
+                st.warning("⚠️ 请先在侧边栏设置API密钥以启用语言描述功能")
+            else:
+                try:
+                    description = run_llm_generation(predictions, llm_model)
+                    st.subheader("LLM生成的描述")
+                    st.write(description)
+                except Exception as e:
+                    st.error(f"LLM生成描述失败: {str(e)}")
         else:
             st.write("没有检测到目标，无法生成描述")
             

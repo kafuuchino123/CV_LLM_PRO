@@ -1,14 +1,15 @@
 import cv2
 import numpy as np
 from ultralytics import YOLO
+from config import Config
 
 class CVModel:
-    def __init__(self, conf_threshold=0.3):
-        # 使用YOLOv8n作为基础模型（轻量级且效果好）
-        self.model = YOLO('yolov8n.pt')
+    def __init__(self, conf_threshold=None):
+        # 使用配置中的模型路径
+        self.model = YOLO(Config.CV_MODEL_PATH)
         self.class_names = self.model.names
-        # 添加置信度阈值，默认0.3
-        self.conf_threshold = conf_threshold
+        # 使用配置中的置信度阈值，如果没有传入自定义值的话
+        self.conf_threshold = conf_threshold or Config.CONF_THRESHOLD
         
     def predict(self, image):
         # 输入有效性校验
