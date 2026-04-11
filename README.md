@@ -7,7 +7,7 @@
 该系统通过以下流程实现图像分析：
 
 1. 使用 YOLOv8 模型检测图像中的目标物体，获取类别、置信度和位置信息
-2. 将检测结果通过 Kimi API 处理
+2. 将检测结果通过 QWEN API 处理
 3. 生成自然、流畅的语言描述，说明图像中的内容
 
 ## 核心功能
@@ -21,7 +21,7 @@
 ## 技术栈
 
 - 目标检测：YOLOv8n（轻量级模型）
-- 语言生成：Kimi API (Moonshot)
+- 语言生成：QWEN API
 - Web 框架：Streamlit
 - 图像处理：OpenCV & Pillow
 
@@ -31,7 +31,7 @@
 
 - Python 3.8+
 - （可选）NVIDIA GPU 及 CUDA 环境（推荐，可加速目标检测）
-- Kimi API 密钥（必需）
+- QWEN API 密钥（必需）
 
 ### 安装步骤
 
@@ -48,7 +48,7 @@ pip install -r requirements.txt
 
 3. 配置 API 密钥：
    - 打开 `config.py`
-   - 将您的 Kimi API 密钥填入 `API_KEY` 字段
+   - 将您的 QWEN API 密钥填入 `API_KEY` 字段
 
 ### 运行应用
 
@@ -62,7 +62,7 @@ streamlit run app.py
 .
 ├── app.py           # 主应用程序（UI和流程控制）
 ├── cv_model.py      # 计算机视觉模型（YOLOv8）
-├── llm_model.py     # 语言模型（Kimi API 接口）
+├── llm_model.py     # 语言模型（QWEN API 接口）
 ├── config.py        # 配置文件
 ├── requirements.txt # 项目依赖
 └── README.md        # 项目文档
@@ -72,7 +72,7 @@ streamlit run app.py
 
 在 `config.py` 中可以修改以下配置：
 
-- `API_KEY`：Kimi API 密钥（必需配置）
+- `API_KEY`：QWEN API 密钥（必需配置）
 - `CV_MODEL_PATH`：YOLOv8 模型路径（默认 "yolov8n.pt"）
 - `CONF_THRESHOLD`：目标检测置信度阈值（默认 0.3）
 
@@ -87,7 +87,7 @@ streamlit run app.py
 ## 注意事项
 
 - 首次运行时会自动下载 YOLOv8 模型
-- 确保已正确配置 Kimi API 密钥
+- 确保已正确配置 QWEN API 密钥
 - 大尺寸图片可能需要更长处理时间
 - 检测结果的准确性受图像质量影响
 

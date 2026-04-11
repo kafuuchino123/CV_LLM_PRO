@@ -1,45 +1,33 @@
-import requests
 import time
 from typing import List, Dict
 from config import Config
+from openai import OpenAI
 
 class LLMModel:
     def __init__(self):
-        if not Config.API_KEY or Config.API_KEY == "在这里填入你的Kimi API密钥":
-            raise ValueError("请在 config.py 中设置您的 Kimi API 密钥")
+        if not Config.API_KEY or Config.API_KEY == "在这里填入你的QWEN API密钥":
+            raise ValueError("请在 config.py 中设置您的 QWEN API 密钥")
         
         self.api_key = Config.API_KEY
-        self.api_url = "https://api.moonshot.cn/v1/chat/completions"
+        self.client = OpenAI(
+            api_key=self.api_key,
+            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1"
+        )
         self.loaded = True
         
     def _make_api_request(self, prompt: str, max_retries: int = None) -> str:
         max_retries = max_retries or Config.MAX_RETRIES
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.api_key}"
-        }
         
-        data = {
-            "model": "moonshot-v1-8k",  # Kimi API 的固定模型
-            "messages": [
-                {
-                    "role": "system",
-                    "content": "你是一个专业的图像分析助手，负责将图像检测结果转化为自然、准确的描述。"
-                },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-            "temperature": Config.TEMPERATURE,
-            "stream": False
-        }
+        # 构建完整的提示，包含系统指令
+        full_prompt = f"你是一个专业的图像分析助手，负责将图像检测结果转化为自然、准确的描述。\n\n{prompt}"
         
         for attempt in range(max_retries):
             try:
-                response = requests.post(self.api_url, headers=headers, json=data)
-                response.raise_for_status()
-                return response.json()['choices'][0]['message']['content']
+                response = self.client.responses.create(
+                    model="qwen3.6-plus",
+                    input=full_prompt
+                )
+                return response.output_text
             except Exception as e:
                 if attempt == max_retries - 1:
                     return f"❌ API调用失败: {str(e)}"

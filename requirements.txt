@@ -5,3 +5,4 @@ streamlit>=1.24.0     # Web界面
 requests>=2.31.0      # API请求
 numpy>=1.24.0         # 数组处理
 torch                 # PyTorch（CPU或GPU版本根据需要选择）
+openai>=1.0.0         # OpenAI客户端库

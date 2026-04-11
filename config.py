@@ -1,7 +1,7 @@
 class Config:
     """配置类"""
     # LLM配置
-    API_KEY = "你的api密钥"  # 替换为您的 API 密钥
+    API_KEY = "sk-6e32057a6fde4eaa889a0864f16fd4b8"  # 替换为您的 QWEN API 密钥
     
     # CV模型配置
     CV_MODEL_PATH = "yolov8n.pt"  # YOLOv8模型路径
